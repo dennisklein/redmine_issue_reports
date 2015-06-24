@@ -4,6 +4,10 @@
 
 Redmine plugin to send issue reports to users via email.
 
+== Requirements
+
+Redmine >= 2.5.0
+
 == License
 
 Copyright (c) 2015 Dennis Klein
