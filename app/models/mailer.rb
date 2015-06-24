@@ -1,5 +1,3 @@
-puts 'pluginMailer'
-
 class Mailer < ActionMailer::Base
   def issue_report(user, issues, days)
     set_language_if_valid user.language
@@ -41,8 +39,6 @@ class Mailer < ActionMailer::Base
         end
       end
     end
-
-    puts issues_by_assignee.inspect
 
     issues_by_assignee.each do |assignee, issues|
       issue_report(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
