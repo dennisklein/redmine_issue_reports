@@ -1,3 +1,10 @@
 = redmine_issue_reports
 
-Description goes here
+Redmine plugin to send issue reports to users via email.
+
+== License
+
+Copyright (c) 2015 Dennis Klein <d.klein@gsi.de>
+              2015 GSI Helmholtzzentrum fuer Schwerionenforschung GmbH <http://www.gsi.de>
+
+This is free software, and may be redistributed under the terms specified in LICENSE.
