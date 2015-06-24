@@ -7,6 +7,7 @@ Redmine plugin to send issue reports to users via email.
 == License
 
 Copyright (c) 2015 Dennis Klein
+
 Copyright (c) 2015 {GSI Helmholtzzentrum fuer Schwerionenforschung GmbH}[http://www.gsi.de]
 
 This is free software, and may be redistributed under the terms specified in link:LICENSE.
