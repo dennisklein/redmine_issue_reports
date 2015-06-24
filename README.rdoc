@@ -1,5 +1,7 @@
 = redmine_issue_reports
 
+{<img src="https://travis-ci.org/dennisklein/redmine_issue_reports.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/dennisklein/redmine_issue_reports]
+
 Redmine plugin to send issue reports to users via email.
 
 == License
