@@ -14,9 +14,6 @@ END_DESC
 
 namespace :redmine do
   task :send_issue_reports => :environment do
-    # Load monkey patches properly
-#    RedmineApp::Application.eager_load!
-
     options = {}
     options[:days] = ENV['days'].to_i if ENV['days']
     options[:project] = ENV['project'] if ENV['project']
