@@ -6,9 +6,10 @@ Available options:
   * tracker  => id of tracker (defaults to all trackers)
   * project  => id or identifier of project (defaults to all projects)
   * users    => comma separated list of user/group ids who should be notified
+  * period   => mail subject: d=daily, w=weekly, m=monthly (defaults to none)
 
 Example:
-  rake redmine:send_issue_reports days=7 users="1,23,56" RAILS_ENV="production"
+  rake redmine:send_issue_reports days=7 users="1,23,56" period=w RAILS_ENV="production"
 END_DESC
 
 namespace :redmine do
@@ -23,6 +24,7 @@ namespace :redmine do
     options[:project] = ENV['project'] if ENV['project']
     options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
     options[:users] = (ENV['users'] || '').split(',').each(&:strip!)
+    options[:period] = ENV['period'] if ENV['period']
 
     Mailer.with_synched_deliveries do
       Mailer.issue_reports(options)

@@ -1,13 +1,25 @@
 class Mailer
-  def issue_report(user, issues, days)
+  def issue_report(user, issues, days, period)
     set_language_if_valid user.language
     @issues = issues
     @days = days
     @issues_url = url_for(:controller => 'issues', :action => 'index',
                                 :set_filter => 1, :assigned_to_id => user.id,
                                 :sort => 'due_date:asc')
+    apptitle = Setting.app_title
+    mailtitle = case period
+    when 'd'
+      l(:mail_subject_issue_report_daily)
+    when 'w'
+      l(:mail_subject_issue_report_weekly)
+    when 'm'
+      l(:mail_subject_issue_report_monthly)
+    else
+      l(:mail_subject_issue_report)
+    end
+
     mail :to => user.mail,
-      :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
+         :subject => "[#{apptitle}] #{mailtitle}"
   end
 
   # Sends issue reports to issue assignees
@@ -16,14 +28,16 @@ class Mailer
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
   # * :users    => array of user/group ids who should be reminded
+  # * :period   => mail subject: d=daily, w=weekly, m=monthly
   def self.issue_reports(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     user_ids = options[:users]
+    period = options[:period] || nil
 
     issues_by_assignee(days, project, tracker, user_ids).each do |assignee, issues|
-      issue_report(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
+      issue_report(assignee, issues, days, period).deliver if assignee.is_a?(User) && assignee.active?
     end
   end
 

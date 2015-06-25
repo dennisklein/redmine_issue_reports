@@ -1,3 +1,6 @@
 # English strings go here for Rails i18n
 en:
-  # my_label: "My label"
+  mail_subject_issue_report: "Issue report"
+  mail_subject_issue_report_daily: "Daily issue report"
+  mail_subject_issue_report_weekly: "Weekly issue report"
+  mail_subject_issue_report_monthly: "Monthly issue report"
