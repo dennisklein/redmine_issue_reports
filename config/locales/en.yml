@@ -4,3 +4,4 @@ en:
   mail_subject_issue_report_daily: "Daily issue report"
   mail_subject_issue_report_weekly: "Weekly issue report"
   mail_subject_issue_report_monthly: "Monthly issue report"
+  field_dont_receive_issue_reports: "I don't want to receive issue reports"

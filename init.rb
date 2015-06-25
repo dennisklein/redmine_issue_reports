@@ -6,4 +6,11 @@ Redmine::Plugin.register :redmine_issue_reports do
   url 'https://github.com/dennisklein/redmine_issue_reports'
   author_url 'https://github.com/dennisklein'
   requires_redmine :version_or_higher => '2.5.0'
+
+  require_dependency 'issue_reports_hook_listener'
+  require_dependency 'user_preference_patch'
+
+  Rails.configuration.to_prepare do
+    UserPreference.send(:include, IssueReports::UserPreferencePatch)
+  end
 end

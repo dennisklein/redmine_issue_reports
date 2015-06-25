@@ -3,9 +3,11 @@ class Mailer
     set_language_if_valid user.language
     @issues = issues
     @days = days
-    @issues_url = url_for(:controller => 'issues', :action => 'index',
-                                :set_filter => 1, :assigned_to_id => user.id,
-                                :sort => 'due_date:asc')
+    @issues_url = url_for(:controller => 'issues',
+                          :action => 'index',
+                          :set_filter => 1,
+                          :assigned_to_id => user.id,
+                          :sort => 'due_date:asc')
     apptitle = Setting.app_title
     mailtitle = case period
     when 'd'
@@ -37,7 +39,11 @@ class Mailer
     period = options[:period] || nil
 
     issues_by_assignee(days, project, tracker, user_ids).each do |assignee, issues|
-      issue_report(assignee, issues, days, period).deliver if assignee.is_a?(User) && assignee.active?
+      if assignee.is_a?(User) &&
+         assignee.active? &&
+         assignee.pref.dont_receive_issue_reports == '0'
+        issue_report(assignee, issues, days, period).deliver
+      end
     end
   end
 
