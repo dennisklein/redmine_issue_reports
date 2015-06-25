@@ -1,4 +1,4 @@
-class Mailer < ActionMailer::Base
+class Mailer
   def issue_report(user, issues, days)
     set_language_if_valid user.language
     @issues = issues
@@ -22,15 +22,21 @@ class Mailer < ActionMailer::Base
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     user_ids = options[:users]
 
-    scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
-      " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
-      " AND #{Issue.table_name}.due_date <= ?", days.day.from_now.to_date
-    )
-    scope = scope.where(:assigned_to_id => user_ids) if user_ids.present?
-    scope = scope.where(:project_id => project.id) if project
-    scope = scope.where(:tracker_id => tracker.id) if tracker
-    issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
-                              group_by(&:assigned_to)
+    issues_by_assignee(days, project, tracker, user_ids).each do |assignee, issues|
+      issue_report(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
+    end
+  end
+
+  def self.issues_by_assignee(days, project, tracker, user_ids)
+    issues_by_assignee = Issue.open.
+                               on_active_project.
+                               assigned.
+                               due_in(days).
+                               assigned_to(user_ids).
+                               project_id(project).
+                               tracker_id(tracker).
+                               group_by(&:assigned_to)
+
     issues_by_assignee.keys.each do |assignee|
       if assignee.is_a?(Group)
         assignee.users.each do |user|
@@ -40,8 +46,6 @@ class Mailer < ActionMailer::Base
       end
     end
 
-    issues_by_assignee.each do |assignee, issues|
-      issue_report(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
-    end
+    issues_by_assignee
   end
 end

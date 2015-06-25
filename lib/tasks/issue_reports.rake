@@ -15,7 +15,8 @@ namespace :redmine do
   task :send_issue_reports => :environment do
     # Load monkey patches properly
     RedmineApp::Application.eager_load!
-    require File.join(Rails.root, "plugins/redmine_issue_reports/app/models/mailer.rb")
+    require File.join(Rails.root, 'plugins', 'redmine_issue_reports', 'app', 'models', 'mailer.rb')
+    require File.join(Rails.root, 'plugins', 'redmine_issue_reports', 'app', 'models', 'issue.rb')
 
     options = {}
     options[:days] = ENV['days'].to_i if ENV['days']
