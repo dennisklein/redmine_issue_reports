@@ -2,6 +2,12 @@
 en:
   mail_subject_issue_report: "Issue report"
   mail_subject_issue_report_daily: "Daily issue report"
-  mail_subject_issue_report_weekly: "Weekly issue report"
   mail_subject_issue_report_monthly: "Monthly issue report"
+  mail_subject_issue_report_weekly: "Weekly issue report"
+
   field_dont_receive_issue_reports: "I don't want to receive issue reports"
+  field_receives_issue_reports: "Receives issue reports?"
+
+  label_issue_reports: "Issue reports"
+  label_issue_reports_user_settings: "User settings"
+  label_issue_reports_user_settings_description: "Users can decide to not receive issue reports. This page gives the administrator an overview who she is reaching by sending issue reports."
