@@ -2,9 +2,10 @@ module IssueReports
   module MailerPatch
     def self.included(base)
       base.class_eval do
-        def issue_report(user, issues, days, period)
+        def issue_report(user, days, period, issues_due, issues_without_due_date)
           set_language_if_valid user.language
-          @issues = issues
+          @issues_due = issues_due
+          @issues_without_due_date = issues_without_due_date
           @days = days
           @issues_url = url_for(:controller => 'issues',
                                 :action => 'index',
@@ -41,25 +42,41 @@ module IssueReports
           user_ids = options[:users]
           period = options[:period] || nil
 
-          issues_by_assignee(days, project, tracker, user_ids).each do |assignee, issues|
+          issues_due = expand_groups(
+            Issue.open.
+            on_active_project.
+            assigned.
+            due_in(days).
+            assigned_to(user_ids).
+            project_id(project).
+            tracker_id(tracker).
+            group_by(&:assigned_to)
+          )
+          issues_without_due_date = expand_groups(
+            Issue.open.
+            on_active_project.
+            assigned.
+            assigned_to(user_ids).
+            where(:due_date => nil).
+            project_id(project).
+            tracker_id(tracker).
+            group_by(&:assigned_to)
+          )
+          (issues_due.keys +
+           issues_without_due_date.keys).uniq.each do |assignee|
             if assignee.is_a?(User) &&
                assignee.active? &&
                assignee.pref.dont_receive_issue_reports == '0'
-              issue_report(assignee, issues, days, period).deliver
+              issue_report(assignee, days, period,
+                           issues_due[assignee],
+                           issues_without_due_date[assignee]
+                          ).deliver
+              puts "[#{Time.now}] Issue report sent to #{assignee.login} (#{assignee.mail})"
             end
           end
         end
 
-        def self.issues_by_assignee(days, project, tracker, user_ids)
-          issues_by_assignee = Issue.open.
-                                     on_active_project.
-                                     assigned.
-                                     due_in(days).
-                                     assigned_to(user_ids).
-                                     project_id(project).
-                                     tracker_id(tracker).
-                                     group_by(&:assigned_to)
-
+        def self.expand_groups(issues_by_assignee)
           issues_by_assignee.keys.each do |assignee|
             if assignee.is_a?(Group)
               assignee.users.each do |user|
@@ -68,7 +85,6 @@ module IssueReports
               end
             end
           end
-
           issues_by_assignee
         end
       end

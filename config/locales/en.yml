@@ -4,6 +4,9 @@ en:
   mail_subject_issue_report_daily: "Daily issue report"
   mail_subject_issue_report_monthly: "Monthly issue report"
   mail_subject_issue_report_weekly: "Weekly issue report"
+  mail_body_issue_report_due: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_body_issue_report_without_due_date: "%{count} issue(s) that are assigned to you are without due date:"
+  mail_body_issue_report_view_all_assigned_issues: "View all issues assigned to you"
 
   field_dont_receive_issue_reports: "I don't want to receive issue reports"
   field_receives_issue_reports: "Receives issue reports?"
