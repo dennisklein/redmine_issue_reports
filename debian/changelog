@@ -1,5 +1,5 @@
 redmine-plugin-redmine-issue-reports (1.0.0-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
 
  -- Dennis Klein <d.klein@gsi.de>  Mon, 29 Jun 2015 17:29:31 +0200
