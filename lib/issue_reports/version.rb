@@ -6,7 +6,8 @@ module IssueReports
 
     # Retrieve branch from the working copy
     def self.branch
-      self.git('rev-parse --abbrev-ref HEAD').strip
+      res = self.git('rev-parse --abbrev-ref HEAD')
+      res.strip unless res.nil?
     end
 
     # Retrieves the revision from the working copy
