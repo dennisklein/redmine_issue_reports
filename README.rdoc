@@ -8,6 +8,30 @@ Redmine plugin to send issue reports to users via email.
 
 Redmine >= 2.5.0
 
+== Installation
+
+=== Manual
+
+Copy the content of the git repo to +REDMINE_HOME/plugins/redmine_issue_reports+.
+
+Run +rake redmine:plugins:migrate NAME=redmine_issue_reports RAILS_ENV=production+
+
+== Usage
+
+Send issue reports by mail by setting up e.g a weekly cron job (replace %REDMINE_HOME% with your actual path):
+
+<verbatim>
+PATH=/usr/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RAILS_ENV=production
+
+0 6 * * 1 www-data cd %REDMINE_HOME% && rake redmine:send_issue_reports period=w
+</verbatim>
+
+=== Options
+
+Run +rake -D redmine:send_issue_reports+ to see the list of options.
+
 == License
 
 Copyright (c) 2015 Dennis Klein
