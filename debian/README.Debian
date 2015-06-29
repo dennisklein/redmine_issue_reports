@@ -1,0 +1,23 @@
+redmine-plugin-redmine-issue-reports for Debian
+-----------------------------------------------
+
+This package does not know where your redmine instance is located.
+Please perform the following steps separately. You can reuse the plugin
+directory for many redmine instances by symlinking appropriately.
+
+ATTENTION! The link must be named exactly 'redmine_issue_reports' !
+
+After package installation:
+
+1. ln -s /usr/share/redmine-plugin-redmine-issue-reports REDMINEROOT/plugins/redmine_issue_reports
+2. RAILS_ENV=production NAME=redmine_issue_reports rake redmine:plugins
+2. Restart Redmine.
+
+
+Before package removal:
+
+1. RAILS_ENV=production NAME=redmine_issue_reports VERSION=0 rake redmine:plugins:migrate
+2. rm REDMINEROOT/plugins/redmine_issue_reports
+3. Restart Redmine.
+
+ -- Dennis Klein <d.klein@gsi.de>  Mon, 29 Jun 2015 17:29:31 +0200

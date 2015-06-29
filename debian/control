@@ -1,0 +1,14 @@
+Source: redmine-plugin-redmine-issue-reports
+Section: web
+Tag: role::plugin
+Priority: extra
+Maintainer: Dennis Klein <d.klein@gsi.de>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://github.com/dennisklein/redmine_issue_reports
+
+Package: redmine-plugin-redmine-issue-reports
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, redmine(>= 2.5.0)
+Description: Redmine plugin: Redmine Issue Reports
+ Send issue report emails.
