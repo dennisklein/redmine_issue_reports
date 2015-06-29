@@ -1,0 +1,18 @@
+en:
+  mail_subject_issue_report: "Ticket Zusammenfassung"
+  mail_subject_issue_report_daily: "Tägliche Ticket Zusammenfassung"
+  mail_subject_issue_report_monthly: "Monatliche Ticket Zusammenfassung"
+  mail_subject_issue_report_weekly: "Wöchentliche Ticket Zusammenfassung"
+  mail_body_issue_report_due: "%{count} Ticket(s), die Ihnen zugewiesen sind, sind in den nächsten  %{days} Tagen fällig:"
+  mail_body_issue_report_due_in: "fällig in %{days} Tagen:"
+  mail_body_issue_report_inactive: "%{count} Tickets(s), die Ihnen zugewiesen sind, waren für mehr als %{days} Tage inaktiv:"
+  mail_body_issue_report_inactive_for: "inaktiv für %{days} Tage:"
+  mail_body_issue_report_without_due_date: "%{count} Ticket(s), die Ihnen zugewiesen sind, haben kein Abgabedatum:"
+  mail_body_issue_report_view_all_assigned_issues: "Alle meine Tickets ansehen"
+
+  field_dont_receive_issue_reports: "Ich möchte keine Ticket Zusammenfassungen empfangen"
+  field_receives_issue_reports: "Empfängt Ticket Zusammenfassungen?"
+
+  label_issue_reports: "Ticket Zusammenfassung"
+  label_issue_reports_user_settings: "Benutzereinstellungen"
+  label_issue_reports_user_settings_description: "Benutzer können selbst entscheiden, ob sie Ticket Zusammenfassungen empfangen möchten. Diese Seite ermöglicht dem Administrator einen Überblick zu gewinnen, wer Ticket Zusammenfassungen empfängt."
