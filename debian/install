@@ -1,6 +1,5 @@
 app /usr/share/redmine-plugin-redmine-issue-reports
 assets /usr/share/redmine-plugin-redmine-issue-reports
 config /usr/share/redmine-plugin-redmine-issue-reports
-db /usr/share/redmine-plugin-redmine-issue-reports
 init.rb /usr/share/redmine-plugin-redmine-issue-reports
 lib /usr/share/redmine-plugin-redmine-issue-reports

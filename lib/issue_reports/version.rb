@@ -1,12 +1,13 @@
 module IssueReports
   module VERSION
     MAJOR = 1
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
 
     # Retrieve branch from the working copy
     def self.branch
-      self.git('rev-parse --abbrev-ref HEAD').strip
+      res = self.git('rev-parse --abbrev-ref HEAD')
+      res.strip unless res.nil?
     end
 
     # Retrieves the revision from the working copy
