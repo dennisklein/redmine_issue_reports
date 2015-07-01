@@ -1,21 +1,36 @@
-<% unless @issues_due.empty? -%>
+<%
+def issue_text(issue)
+  done_ratio = "#{l(:field_done_ratio)}: #{issue.done_ratio.to_s}"
+  priority = "#{l(:field_priority)}: #{issue.priority.to_s}"
+  issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue.id, :only_path => false)
+  "[#{h(issue.project)}] #{h(issue.tracker)} ##{h(issue.id)}: #{h(issue.subject)} (#{done_ratio}, #{priority}) <#{issue_url}>"
+end
+-%>
 <%= l(:mail_body_issue_report_due, :count => @issues_due.size, :days => @days) %>
-<% @issues_due.each do |issue| -%>
-  * <%= l(:mail_body_issue_report_due_in, :days => (issue.due_date - @today).to_i) %> [<%= issue.project %>] <%= "#{issue.tracker} ##{issue.id}" %>: <%= "#{issue.subject}" %> (<%= url_for(:controller => 'issues', :action => 'show', :id => issue.id, :only_path => false) %>)
+<% unless @issues_due.empty? -%>
+<% @issues_due.each do |issue|
+  due_days = (issue.due_date - @today).to_i
+  if due_days >= 0
+    prefix = l(:mail_body_issue_report_due_in, :days => due_days, :date => issue.due_date)
+  else
+    prefix = l(:mail_body_issue_report_was_due_before, :days => -due_days, :date => issue.due_date)
+
+  end -%>
+  * <%= prefix %> <%= raw issue_text(issue) %>
 <% end -%>
 <% end -%>
 
-<% unless @issues_without_due_date.empty? -%>
 <%= l(:mail_body_issue_report_without_due_date, :count => @issues_without_due_date.size) %>
+<% unless @issues_without_due_date.empty? -%>
 <% @issues_without_due_date.each do |issue| -%>
-  * [<%= issue.project %>] <%= "#{issue.tracker} ##{issue.id}" %>: <%= "#{issue.subject}" %> (<%= url_for(:controller => 'issues', :action => 'show', :id => issue.id, :only_path => false) %>)
+  * <%= raw issue_text(issue) %>
 <% end -%>
 <% end -%>
 
-<% unless @issues_inactive.empty? -%>
 <%= l(:mail_body_issue_report_inactive, :count => @issues_inactive.size, :days => @inactive_days) %>
+<% unless @issues_inactive.empty? -%>
 <% @issues_inactive.each do |issue| -%>
-  * <%= l(:mail_body_issue_report_inactive_for, :days => ((@now - issue.updated_on) / 3600 / 24).to_i) %> [<%= issue.project %>] <%= "#{issue.tracker} ##{issue.id}" %>: <%= "#{issue.subject}" %> (<%= url_for(:controller => 'issues', :action => 'show', :id => issue.id, :only_path => false) %>)
+  * <%= l(:mail_body_issue_report_inactive_for, :days => ((@now - issue.updated_on) / 3600 / 24).to_i) %> <%= raw issue_text(issue) %>
 <% end -%>
 <% end -%>
 

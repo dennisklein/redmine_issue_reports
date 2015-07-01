@@ -1,26 +1,41 @@
-<% unless @issues_due.empty? -%>
+<%
+def issue_text(issue)
+  project_link = link_to(h(issue.project), :controller => 'issues', :action => 'index', :project_id => issue.project, :only_path => false)
+  issue_link = link_to(h("#{issue.tracker} ##{issue.id}"), :controller => 'issues', :action => 'show', :id => issue.id, :only_path => false)
+  done_ratio = "#{l(:field_done_ratio)}: #{issue.done_ratio.to_s}"
+  priority = "#{l(:field_priority)}: #{issue.priority.to_s}"
+  "[#{project_link}] #{issue_link}: #{h(issue.subject)} (#{done_ratio}, #{priority})"
+end
+-%>
 <p><%= l(:mail_body_issue_report_due, :count => @issues_due.size, :days => @days) %></p>
+<% unless @issues_due.empty? -%>
 <ul>
-<% @issues_due.each do |issue| -%>
-  <li><%= l(:mail_body_issue_report_due_in, :days => (issue.due_date - @today).to_i) %> [<%=link_to(h(issue.project), :controller => 'issues', :action => 'index', :project_id => issue.project, :only_path => false) %>] <%=link_to(h("#{issue.tracker} ##{issue.id}"), :controller => 'issues', :action => 'show', :id => issue, :only_path => false)%>: <%=h issue.subject %></li>
+<% @issues_due.each do |issue|
+  due_days = (issue.due_date - @today).to_i
+  if due_days >= 0
+    prefix = l(:mail_body_issue_report_due_in, :days => due_days, :date => issue.due_date)
+  else
+    prefix = l(:mail_body_issue_report_was_due_before, :days => -due_days, :date => issue.due_date)
+  end -%>
+  <li><%= prefix %> <%= raw issue_text(issue)%></li>
 <% end -%>
 </ul>
 <% end -%>
 
-<% unless @issues_without_due_date.empty? -%>
 <p><%= l(:mail_body_issue_report_without_due_date, :count => @issues_without_due_date.size) %></p>
+<% unless @issues_without_due_date.empty? -%>
 <ul>
 <% @issues_without_due_date.each do |issue| -%>
-  <li>[<%=link_to(h(issue.project), :controller => 'issues', :action => 'index', :project_id => issue.project, :only_path => false) %>] <%=link_to(h("#{issue.tracker} ##{issue.id}"), :controller => 'issues', :action => 'show', :id => issue, :only_path => false)%>: <%=h issue.subject %></li>
+  <li><%= raw issue_text(issue) %></li>
 <% end -%>
 </ul>
 <% end -%>
 
-<% unless @issues_inactive.empty? -%>
 <p><%= l(:mail_body_issue_report_inactive, :count => @issues_inactive.size, :days => @inactive_days) %></p>
+<% unless @issues_inactive.empty? -%>
 <ul>
 <% @issues_inactive.each do |issue| -%>
-  <li><%= l(:mail_body_issue_report_inactive_for, :days => ((@now - issue.updated_on) / 3600 / 24).to_i) %> [<%=link_to(h(issue.project), :controller => 'issues', :action => 'index', :project_id => issue.project, :only_path => false) %>] <%=link_to(h("#{issue.tracker} ##{issue.id}"), :controller => 'issues', :action => 'show', :id => issue, :only_path => false)%>: <%=h issue.subject %></li>
+  <li><%= l(:mail_body_issue_report_inactive_for, :days => ((@now - issue.updated_on) / 3600 / 24).to_i) %> <%= raw issue_text(issue) %></li>
 <% end -%>
 </ul>
 <% end -%>
