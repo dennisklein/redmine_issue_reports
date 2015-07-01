@@ -1,3 +1,9 @@
+redmine-plugin-redmine-issue-reports (1.1.0-1) unstable; urgency=medium
+
+  * Release 1.1.0
+
+ -- Dennis Klein <d.klein@gsi.de>  Wed, 01 Jul 2015 16:43:04 +0200
+
 redmine-plugin-redmine-issue-reports (1.0.0-1) unstable; urgency=low
 
   * Initial release
